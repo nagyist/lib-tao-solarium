@@ -66,6 +66,8 @@ class SolariumIndexer
     
         $count = 0;
     
+        \helpers_TimeOutHelper::setTimeOutLimit(\helpers_TimeOutHelper::LONG);
+        
         // flush existing index
         $update = $this->client->createUpdate();
         $update->addDeleteQuery('*:*');
@@ -88,7 +90,9 @@ class SolariumIndexer
         $update->addCommit();
         $update->addOptimize();
         $result = $this->client->update($update);
-    
+        
+        \helpers_TimeOutHelper::reset();
+            
         return $count;
     }
     
